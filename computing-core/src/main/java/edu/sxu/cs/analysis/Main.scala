@@ -1,8 +1,9 @@
 package edu.sxu.cs.analysis
 
+import java.util.Date
+
 import org.apache.log4j.{Level, LogManager}
 import org.apache.spark._
-import org.apache.spark.sql.SparkSession
 import org.apache.spark.streaming._
 import org.apache.spark.streaming.kafka.KafkaUtils
 
@@ -33,10 +34,6 @@ object Main {
     conf.set("spark.hbase.host", zkQuorum)
     val ssc = new StreamingContext(conf, Seconds(5))
 
-    val spark = SparkSession
-      .builder()
-      .config(conf)
-      .getOrCreate()
 
     //从kafka获取数据
 
