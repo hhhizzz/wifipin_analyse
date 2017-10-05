@@ -1,5 +1,6 @@
 package edu.sxu.cs.analysis
 
+import org.apache.log4j.{Level, LogManager}
 import org.apache.spark._
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.streaming._
@@ -23,15 +24,19 @@ object Main {
     val topics = "test"
     val numThreads = "2"
 
+    //把日志记录调整为WARN级别，以减少输出
+//    val log = LogManager.getLogger("org")
+//    log.setLevel(Level.WARN)
+
     //启动streaming
     val conf = new SparkConf().setAppName("computing-core").setMaster("local[2]")
     conf.set("spark.hbase.host", zkQuorum)
     val ssc = new StreamingContext(conf, Seconds(5))
 
-//    val spark = SparkSession
-//      .builder()
-//      .config(conf)
-//      .getOrCreate()
+    val spark = SparkSession
+      .builder()
+      .config(conf)
+      .getOrCreate()
 
     //从kafka获取数据
 
@@ -42,6 +47,18 @@ object Main {
 
     //实时分析
     RealTimeAnalysis.analysis(inputDStream)
+
+
+    val sc = spark.sparkContext
+    import it.nerdammer.spark.hbase._
+
+    val rdd = sc.parallelize(100 to 102)
+      .map(i => (i.toString, Integer.toString(i + 1), "Hello"))
+
+    rdd.toHBaseTable("test")
+      .toColumns("column1", "column2")
+      .inColumnFamily("mycf")
+      .save()
 
 
     ssc.start()
