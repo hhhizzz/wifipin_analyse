@@ -25,8 +25,8 @@ object Main {
     val numThreads = "2"
 
     //把日志记录调整为WARN级别，以减少输出
-//    val log = LogManager.getLogger("org")
-//    log.setLevel(Level.WARN)
+    val log = LogManager.getLogger("org")
+    log.setLevel(Level.WARN)
 
     //启动streaming
     val conf = new SparkConf().setAppName("computing-core").setMaster("local[2]")
@@ -49,16 +49,6 @@ object Main {
     RealTimeAnalysis.analysis(inputDStream)
 
 
-    val sc = spark.sparkContext
-    import it.nerdammer.spark.hbase._
-
-    val rdd = sc.parallelize(100 to 102)
-      .map(i => (i.toString, Integer.toString(i + 1), "Hello"))
-
-    rdd.toHBaseTable("test")
-      .toColumns("column1", "column2")
-      .inColumnFamily("mycf")
-      .save()
 
 
     ssc.start()

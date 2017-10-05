@@ -21,14 +21,14 @@ object RealTimeAnalysis {
     val countByPin = dataArray.map(line => (line._2, 1)).reduceByKey(_ + _)
     countByPin.print()
 
-//    //存入hbase
-//    import it.nerdammer.spark.hbase._
-//    dataArray.foreachRDD(rdd =>
-//      rdd.toHBaseTable("mac")
-//        .inColumnFamily("mac")
-//        .toColumns("wifiPin", "power")
-//        .save
-//    )
+    //存入hbase
+    import it.nerdammer.spark.hbase._
+    dataArray.foreachRDD(rdd =>
+      rdd.toHBaseTable("mac")
+        .inColumnFamily("mac")
+        .toColumns("wifiPin", "power")
+        .save
+    )
 
   }
 }
