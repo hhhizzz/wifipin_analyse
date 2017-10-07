@@ -11,7 +11,6 @@ object RealTimeAnalysis {
   def analysis(inputDStream: ReceiverInputDStream[(String, String)]): Unit = {
     //今天
     val today = new Date().getDay - new Date(1506787200).getDay
-    print(today)
 
     val lines = inputDStream.map(_._2)
     //structure (pinNumber,JSONArray)

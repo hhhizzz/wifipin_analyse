@@ -1,6 +1,5 @@
 package edu.sxu.cs.analysis
 
-import java.util.Date
 
 import org.apache.log4j.{Level, LogManager}
 import org.apache.spark._
