@@ -66,7 +66,7 @@ object RealTimeAnalysis {
 
     //structure (mac1, wifiPin, time, today)
     val timeDiffSave = timeDiff
-      .map(row => (row._2, row._1, row._3, today))
+      .map(row => (row._2, row._1, row._3))
       .filter(row => row._3 >= 8)
       .cache()
 
@@ -87,7 +87,7 @@ object RealTimeAnalysis {
       .foreachRDD(rdd =>
         rdd.toHBaseTable("stay")
           .inColumnFamily("stay")
-          .toColumns("wifiPin", "time", "day")
+          .toColumns("wifiPin", "time")
           .save
       )
 
