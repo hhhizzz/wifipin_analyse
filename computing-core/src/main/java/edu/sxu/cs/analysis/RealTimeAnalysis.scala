@@ -1,7 +1,5 @@
 package edu.sxu.cs.analysis
 
-import java.util.Date
-
 import edu.sxu.cs.utils.JSONUtil
 import org.apache.spark.streaming.dstream.ReceiverInputDStream
 import org.json.JSONObject
@@ -9,8 +7,6 @@ import it.nerdammer.spark.hbase._
 
 object RealTimeAnalysis {
   def analysis(inputDStream: ReceiverInputDStream[(String, String)]): Unit = {
-    //今天
-    val today = new Date().getDay - new Date(1506787200).getDay
 
     val lines = inputDStream.map(_._2)
     //structure (pinNumber,JSONArray)

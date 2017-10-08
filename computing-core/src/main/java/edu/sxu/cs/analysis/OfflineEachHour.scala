@@ -1,7 +1,5 @@
 package edu.sxu.cs.analysis
 
-import java.util.Date
-
 import org.apache.hadoop.hbase.{CellUtil, HBaseConfiguration}
 import org.apache.hadoop.hbase.client.Result
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
@@ -9,18 +7,23 @@ import org.apache.hadoop.hbase.mapreduce.TableInputFormat
 import org.apache.hadoop.hbase.util.Bytes
 import org.apache.spark.SparkConf
 import org.apache.spark.sql.SparkSession
+import it.nerdammer.spark.hbase._
+import java.util.Calendar
+import org.apache.log4j.{Level, LogManager}
 
 import scala.collection.JavaConversions._
 
-object OfflineAnalysis {
+object OfflineEachHour {
   def main(args: Array[String]): Unit = {
-    //val today = new Date().getDay - new Date(1506787200).getDay
-    val currentHour = new Date().getTime - 3600000
+    //时间设置，从2018-10-01开始计算
+    val cal = Calendar.getInstance
+    val today = (System.currentTimeMillis() - 1506787200000L) / (1000 * 3600 * 24)
+    val currentHour = cal.get(Calendar.HOUR_OF_DAY)
 
     val zkQuorum = "host0.com,host2.com,host1.com"
     //日志输出设置为warn
-    //    val log = LogManager.getLogger("org")
-    //    log.setLevel(Level.WARN)
+    val log = LogManager.getLogger("org")
+    log.setLevel(Level.WARN)
     //设置spark环境
     val conf = new SparkConf().setAppName("computing-core-offline").setMaster("local[2]")
     conf.set("spark.hbase.host", zkQuorum)
@@ -62,9 +65,16 @@ object OfflineAnalysis {
     //structure (wifiPin, time_avg)
     val resultStay = sumStay
       .join(wifiPinCount)
-      .map(row => (row._1,row._2._1 * 1.0 / row._2._2))
+      .map(row => (row._1, row._2._1 * 1.0 / row._2._2))
+      .cache()
 
-    resultStay.collect().foreach(println)
+
+    resultStay
+      .map(row => (row._1, row._2, today, currentHour))
+      .toHBaseTable("remain")
+      .inColumnFamily("remain")
+      .toColumns("time", "day", "hour")
+      .save
 
 
   }
