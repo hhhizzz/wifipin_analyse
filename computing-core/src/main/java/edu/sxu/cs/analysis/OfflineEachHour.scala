@@ -47,7 +47,7 @@ object OfflineEachHour {
       .map(row => (row._1, 1))
       .reduceByKey(_ + _)
 
-    //structure ((mac,wifiPin),key,value)
+    //structure (mac,key,value,timeStamp)
     val dataListStay = hbaseDataStay
       .map(row => ((Bytes.toString(row._2.getRow), Bytes.toInt(row._2.getValue("stay".getBytes(), "wifiPin".getBytes()))), row._2))
       .flatMapValues(_.listCells())
