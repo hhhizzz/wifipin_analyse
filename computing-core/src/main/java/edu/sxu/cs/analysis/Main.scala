@@ -29,7 +29,7 @@ object Main {
     log.setLevel(Level.WARN)
 
     //启动streaming
-    val conf = new SparkConf().setAppName("computing-core").setMaster("local[2]")
+    val conf = new SparkConf().setAppName("computing-core")
     conf.set("spark.hbase.host", zkQuorum)
     val ssc = new StreamingContext(conf, Seconds(20))
 
