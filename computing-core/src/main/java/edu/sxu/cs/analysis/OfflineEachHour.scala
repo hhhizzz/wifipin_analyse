@@ -25,7 +25,7 @@ object OfflineEachHour {
     val log = LogManager.getLogger("org")
     log.setLevel(Level.WARN)
     //设置spark环境
-    val conf = new SparkConf().setAppName("computing-core-offline").setMaster("local[2]")
+    val conf = new SparkConf().setAppName("computing-core-offline")
     conf.set("spark.hbase.host", zkQuorum)
     val spark = SparkSession
       .builder()
