@@ -15,7 +15,7 @@ object OfflineEachDay {
   def main(args: Array[String]): Unit = {
     val oneDayBefore = System.currentTimeMillis() - 24 * 3600 * 1000
 
-    val today = timeToDay(oneDayBefore)
+    val today = timeToDay(System.currentTimeMillis())
 
     val zkQuorum = "host0.com,host2.com,host1.com"
     //日志输出设置为warn
@@ -46,12 +46,22 @@ object OfflineEachDay {
       .map(row => (row._1, Bytes.toInt(CellUtil.cloneValue(row._2)), row._2.getTimestamp))
       .cache()
 
-    //structure (wifiPin, SpaceDay)
-    val spaceDay = dataList
+    //structure ((mac, wifiPin),timeStamp)
+    val todayMin = dataList
+      .filter(row => row._3 > oneDayBefore)
+      .map(row => ((row._1, row._2), row._3))
+      .reduceByKey(math.min)
+      .cache()
+
+    //structure ((mac, wifiPin),timeStamp)
+    val beforeMax = dataList
       .filter(row => row._3 < oneDayBefore)
       .map(row => ((row._1, row._2), row._3))
       .reduceByKey(math.max)
-      .map(row => (row._1._2, today - timeToDay(row._2)))
+
+    //structure (wifiPin, SpaceDay)
+    val spaceDay = beforeMax.join(todayMin)
+      .map(row => (row._1._2, timeToDay(row._2._2) - timeToDay(row._2._1)))
       .groupByKey()
       .mapValues(row => 1.0 * row.sum / row.size)
       .cache()
