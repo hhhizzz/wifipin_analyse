@@ -65,7 +65,7 @@ object OfflineEachHour {
     //structure (wifiPin, time_avg)
     val resultStay = sumStay
       .join(wifiPinCount)
-      .map(row => (row._1, row._2._1 * 1.0 / row._2._2))
+      .map(row => (row._1, row._2._1 / row._2._2))
       .cache()
 
 
