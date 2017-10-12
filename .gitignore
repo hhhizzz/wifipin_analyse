@@ -7,6 +7,10 @@
 **/*.iml
 **/.idea/
 
+# python files
+**/.pyc
+**/migrations/
+
 # Apple OS X related
 **/.DS_Store
 
