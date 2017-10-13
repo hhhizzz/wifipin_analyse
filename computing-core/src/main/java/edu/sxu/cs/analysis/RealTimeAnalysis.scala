@@ -1,5 +1,7 @@
 package edu.sxu.cs.analysis
 
+import java.text.SimpleDateFormat
+
 import edu.sxu.cs.utils.JSONUtil
 import org.apache.spark.streaming.dstream.ReceiverInputDStream
 import org.json.JSONObject
@@ -8,16 +10,17 @@ import it.nerdammer.spark.hbase._
 object RealTimeAnalysis {
   def analysis(inputDStream: ReceiverInputDStream[(String, String)]): Unit = {
 
+    val formater = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy")
     val lines = inputDStream.map(_._2)
-    //structure (pinNumber,JSONArray)
+    //structure ((pinNumber,time),JSONArray)
     val jsonArray = lines
       .map(new JSONObject(_))
-      .map(obj => (obj.getInt("wifiPin"), obj.getJSONArray("data")))
+      .map(obj => ((obj.getString("time"),obj.getString("id")), obj.getJSONArray("data")))
 
     //structure (pinNumber,mac1,power1,time1)
     val dataArray = jsonArray
       .flatMapValues(JSONUtil.getArray)
-      .map(data => (data._1, data._2.getString("mac"), data._2.getInt("power"), data._2.getInt("time")))
+      .map(data => (data._1._2, data._2.getString("mac"), data._2.getInt("rssi"), formater.parse(data._1._1).getTime))
       .cache()
 
     //structure ((pinNumber,mac1),time1))
@@ -44,6 +47,7 @@ object RealTimeAnalysis {
       .map(row => (row._1, 1))
       .reduceByKey(_ + _)
       .cache()
+    peopleGetIn.print()
 
     //structure (pinNumber, get_in_rate)
     val rateGetIn = peopleGetIn
