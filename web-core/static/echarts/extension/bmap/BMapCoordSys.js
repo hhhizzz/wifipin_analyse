@@ -1,6 +1,6 @@
 define(function (require) {
 
-    var echarts = require('echarts');
+    var echarts = require('static/echarts/dist/echarts');
 
     function BMapCoordSys(bmap, api) {
         this._bmap = bmap;

@@ -23,6 +23,20 @@ def index():
     return render_template("index.html", username=username)
 
 
+@app.route('/index2', methods=["GET"])
+@login_required
+def index2():
+    username = current_user.username
+    return render_template("index2.html", username=username)
+
+
+@app.route("/date", methods=["GET"])
+@login_required
+def date():
+    username = current_user.username
+    return render_template("date.html", username=username)
+
+
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == "GET":

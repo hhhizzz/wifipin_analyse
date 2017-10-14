@@ -1,10 +1,10 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("echarts"));
+		module.exports = factory(require("static/echarts/dist/echarts"));
 	else if(typeof define === 'function' && define.amd)
-		define(["echarts"], factory);
+		define(["static/echarts/dist/echarts"], factory);
 	else if(typeof exports === 'object')
-		exports["bmap"] = factory(require("echarts"));
+		exports["bmap"] = factory(require("static/echarts/dist/echarts"));
 	else
 		root["echarts"] = root["echarts"] || {}, root["echarts"]["bmap"] = factory(root["echarts"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_1__) {

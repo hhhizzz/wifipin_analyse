@@ -3,7 +3,7 @@
 define(function (require) {
 
     'use strict';
-    var zrUtil = require('echarts').util;
+    var zrUtil = require('static/echarts/dist/echarts').util;
 
     function parse(xml) {
         var doc;

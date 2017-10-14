@@ -1,7 +1,7 @@
 define(function (require) {
 
     var quantile = require('./quantile');
-    var numberUtil = require('echarts').number;
+    var numberUtil = require('static/echarts/dist/echarts').number;
 
     /**
      * Helper method for preparing data.

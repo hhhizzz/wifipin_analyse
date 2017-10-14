@@ -1,0 +1,522 @@
+{% extends "base.html" %}
+{% block title %}
+    按日查看
+{% endblock %}
+{% block main %}
+    <div class="col-md-8 col-sm-8 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>按周数据</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                <div id="week_chart" style="height:350px;"></div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>今日天气
+                    <small>Sessions</small>
+                </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="temperature"><b>星期一</b>, 上午 07:30
+                            <span>F</span>
+                            <span><b>C</b>
+                                          </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="weather-icon">
+                          <span>
+                                              <canvas height="84" width="84" id="partly-cloudy-day"></canvas>
+                                          </span>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="weather-text">
+                            <h2>太原
+                                <br><i>微风</i>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="weather-text pull-right">
+                        <h3 class="degrees">23</h3>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+
+                <div class="row weather-days">
+                    <div class="col-sm-2">
+                        <div class="daily-weather">
+                            <h2 class="day">Mon</h2>
+                            <h3 class="degrees">25</h3>
+                            <span>
+                                                  <canvas id="clear-day" width="32" height="32">
+                                                  </canvas>
+
+                                          </span>
+                            <h5>15
+                                <i>km/h</i>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="daily-weather">
+                            <h2 class="day">Tue</h2>
+                            <h3 class="degrees">25</h3>
+                            <canvas height="32" width="32" id="rain"></canvas>
+                            <h5>12
+                                <i>km/h</i>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="daily-weather">
+                            <h2 class="day">Wed</h2>
+                            <h3 class="degrees">27</h3>
+                            <canvas height="32" width="32" id="snow"></canvas>
+                            <h5>14
+                                <i>km/h</i>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="daily-weather">
+                            <h2 class="day">Thu</h2>
+                            <h3 class="degrees">28</h3>
+                            <canvas height="32" width="32" id="sleet"></canvas>
+                            <h5>15
+                                <i>km/h</i>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="daily-weather">
+                            <h2 class="day">Fri</h2>
+                            <h3 class="degrees">28</h3>
+                            <canvas height="32" width="32" id="wind"></canvas>
+                            <h5>11
+                                <i>km/h</i>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="daily-weather">
+                            <h2 class="day">Sat</h2>
+                            <h3 class="degrees">26</h3>
+                            <canvas height="32" width="32" id="cloudy"></canvas>
+                            <h5>10
+                                <i>km/h</i>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>热力图</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                </ul>
+                </li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                <div id="date_chart" style="height:600px;"></div>
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block script %}
+    <script type="application/javascript">
+        var theme = {
+            color: [
+                '#26B99A', '#34495E', '#BDC3C7', '#3498DB',
+                '#9B59B6', '#8abb6f', '#759c6a', '#bfd3b7'
+            ],
+
+            title: {
+                itemGap: 8,
+                textStyle: {
+                    fontWeight: 'normal',
+                    color: '#408829'
+                }
+            },
+
+            dataRange: {
+                color: ['#1f610a', '#97b58d']
+            },
+
+            toolbox: {
+                color: ['#408829', '#408829', '#408829', '#408829']
+            },
+
+            tooltip: {
+                backgroundColor: 'rgba(0,0,0,0.5)',
+                axisPointer: {
+                    type: 'line',
+                    lineStyle: {
+                        color: '#408829',
+                        type: 'dashed'
+                    },
+                    crossStyle: {
+                        color: '#408829'
+                    },
+                    shadowStyle: {
+                        color: 'rgba(200,200,200,0.3)'
+                    }
+                }
+            },
+
+            dataZoom: {
+                dataBackgroundColor: '#eee',
+                fillerColor: 'rgba(64,136,41,0.2)',
+                handleColor: '#408829'
+            },
+            grid: {
+                borderWidth: 0
+            },
+
+            categoryAxis: {
+                axisLine: {
+                    lineStyle: {
+                        color: '#408829'
+                    }
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: ['#eee']
+                    }
+                }
+            },
+
+            valueAxis: {
+                axisLine: {
+                    lineStyle: {
+                        color: '#408829'
+                    }
+                },
+                splitArea: {
+                    show: true,
+                    areaStyle: {
+                        color: ['rgba(250,250,250,0.1)', 'rgba(200,200,200,0.1)']
+                    }
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: ['#eee']
+                    }
+                }
+            },
+            timeline: {
+                lineStyle: {
+                    color: '#408829'
+                },
+                controlStyle: {
+                    normal: {color: '#408829'},
+                    emphasis: {color: '#408829'}
+                }
+            },
+
+            k: {
+                itemStyle: {
+                    normal: {
+                        color: '#68a54a',
+                        color0: '#a9cba2',
+                        lineStyle: {
+                            width: 1,
+                            color: '#408829',
+                            color0: '#86b379'
+                        }
+                    }
+                }
+            },
+            map: {
+                itemStyle: {
+                    normal: {
+                        areaStyle: {
+                            color: '#ddd'
+                        },
+                        label: {
+                            textStyle: {
+                                color: '#c12e34'
+                            }
+                        }
+                    },
+                    emphasis: {
+                        areaStyle: {
+                            color: '#99d2dd'
+                        },
+                        label: {
+                            textStyle: {
+                                color: '#c12e34'
+                            }
+                        }
+                    }
+                }
+            },
+            force: {
+                itemStyle: {
+                    normal: {
+                        linkStyle: {
+                            strokeColor: '#408829'
+                        }
+                    }
+                }
+            },
+            chord: {
+                padding: 4,
+                itemStyle: {
+                    normal: {
+                        lineStyle: {
+                            width: 1,
+                            color: 'rgba(128, 128, 128, 0.5)'
+                        },
+                        chordStyle: {
+                            lineStyle: {
+                                width: 1,
+                                color: 'rgba(128, 128, 128, 0.5)'
+                            }
+                        }
+                    },
+                    emphasis: {
+                        lineStyle: {
+                            width: 1,
+                            color: 'rgba(128, 128, 128, 0.5)'
+                        },
+                        chordStyle: {
+                            lineStyle: {
+                                width: 1,
+                                color: 'rgba(128, 128, 128, 0.5)'
+                            }
+                        }
+                    }
+                }
+            },
+            gauge: {
+                startAngle: 225,
+                endAngle: -45,
+                axisLine: {
+                    show: true,
+                    lineStyle: {
+                        color: [[0.2, '#86b379'], [0.8, '#68a54a'], [1, '#408829']],
+                        width: 8
+                    }
+                },
+                axisTick: {
+                    splitNumber: 10,
+                    length: 12,
+                    lineStyle: {
+                        color: 'auto'
+                    }
+                },
+                axisLabel: {
+                    textStyle: {
+                        color: 'auto'
+                    }
+                },
+                splitLine: {
+                    length: 18,
+                    lineStyle: {
+                        color: 'auto'
+                    }
+                },
+                pointer: {
+                    length: '90%',
+                    color: 'auto'
+                },
+                title: {
+                    textStyle: {
+                        color: '#333'
+                    }
+                },
+                detail: {
+                    textStyle: {
+                        color: 'auto'
+                    }
+                }
+            },
+            textStyle: {
+                fontFamily: 'Arial, Verdana, sans-serif'
+            }
+        };
+
+        function getVirtulData(year) {
+            year = year || '2017';
+            var date = +echarts.number.parseDate(year + '-01-01');
+            var end = +echarts.number.parseDate((+year + 1) + '-01-01');
+            var dayTime = 3600 * 24 * 1000;
+            var data = [];
+            for (var time = date; time < end; time += dayTime) {
+                data.push([
+                    echarts.format.formatTime('yyyy-MM-dd', time),
+                    Math.floor(Math.random() * 1000)
+                ]);
+            }
+            return data;
+        }
+
+
+        option_date_chart = {
+            tooltip: {
+                position: 'top'
+            },
+            visualMap: {
+                min: 0,
+                max: 1000,
+                calculable: true,
+                orient: 'horizontal',
+                left: 'center',
+                top: 'top'
+            },
+            calendar: [
+                {
+                    range: '2017',
+                    cellSize: ['auto', 20]
+                }, {
+                    top: 260,
+                    range: '2017',
+                    cellSize: ['auto', 20]
+                },
+                {
+                    top: 450,
+                    range: '2017',
+                    cellSize: ['auto', 20],
+                    right: 5
+                }],
+
+            series: [{
+                name: '客户数',
+                type: 'heatmap',
+                coordinateSystem: 'calendar',
+                calendarIndex: 0,
+                data: getVirtulData(2017)
+            }, {
+                name: '平均停留时间',
+                type: 'heatmap',
+                coordinateSystem: 'calendar',
+                calendarIndex: 1,
+                data: getVirtulData(2017)
+            }, {
+                name: '平均访客周期',
+                type: 'heatmap',
+                coordinateSystem: 'calendar',
+                calendarIndex: 2,
+                data: getVirtulData(2017)
+            }]
+
+        };
+
+        if ($("#date_chart").length) {
+            var mainPeopleChart = echarts.init(document.getElementById('date_chart'), theme);
+            mainPeopleChart.setOption(option_date_chart)
+        }
+
+        option_week_chart = {
+            tooltip: {
+                trigger: 'axis',
+            },
+            legend: {
+                data: ['客户数', '平均访问时间(分钟)', '平均访问周期']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value'
+                },
+                {
+                    type: 'value'
+                },
+                {
+                    type: 'value'
+                }
+            ],
+            series: [
+                {
+                    name: '客户数',
+                    type: 'bar',
+                    data: [320, 332, 301, 334, 390, 330, 320]
+                },
+                {
+                    name: '平均访问时间(分钟)',
+                    type: 'bar',
+                    yAxisIndex: 1,
+                    data: [20, 32, 12, 34, 30, 30, 14]
+                },
+                {
+                    name: '平均访问周期',
+                    type: 'bar',
+                    yAxisIndex: 2,
+                    data: [2.2, 1.8, 1.9, 2.3, 2.9, 3.3, 3.1]
+                }
+            ]
+        };
+        if ($("#week_chart").length) {
+            var mainPeopleChart = echarts.init(document.getElementById('week_chart'), theme);
+            mainPeopleChart.setOption(option_week_chart)
+        }
+
+
+    </script>
+{% endblock %}

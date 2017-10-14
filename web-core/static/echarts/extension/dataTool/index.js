@@ -1,5 +1,5 @@
 define(function (require) {
-    var echarts = require('echarts');
+    var echarts = require('static/echarts/dist/echarts');
     echarts.dataTool = {
         version: '1.0.0',
         gexf: require('./gexf'),

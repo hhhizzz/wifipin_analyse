@@ -1,6 +1,6 @@
 var glob = require('glob');
 var Canvas = require('canvas');
-var echarts = require('echarts');
+var echarts = require('static/echarts/dist/echarts');
 var fs = require('fs');
 var path = require('path');
 

@@ -68,18 +68,14 @@
                             </li>
                             <li><a><i class="fa fa-table"></i> 表格数据 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="tables.html">Tables</a></li>
-                                    <li><a href="tables_dynamic.html">Table Dynamic</a></li>
+                                    <li><a href="#">mac地址源数据</a></li>
+                                    <li><a href="#">WIFI连接源数据</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-bar-chart-o"></i> 数据可视化 <span
                                     class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="chartjs.html">Chart JS</a></li>
-                                    <li><a href="chartjs2.html">Chart JS2</a></li>
-                                    <li><a href="morisjs.html">Moris JS</a></li>
-                                    <li><a href="echarts.html">ECharts</a></li>
-                                    <li><a href="other_charts.html">Other Charts</a></li>
+                                    <li><a href="{{ url_for("date") }}">按日查看</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -90,7 +86,7 @@
                             <li><a><i class="fa fa-laptop"></i> 更多服务 <span
                                     class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="profile.html">购买探针</a></li>
+                                    <li><a href="{{ url_for("buy",username=username) }}">购买探针</a></li>
                                     <li><a href="profile.html">联系我们</a></li>
                                 </ul>
                             </li>
@@ -115,7 +111,7 @@
                     <a data-toggle="tooltip" data-placement="top" title="锁定">
                         <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
                     </a>
-                    <a data-toggle="tooltip" data-placement="top" title="Logout" href="{{ url_for('logout') }}">
+                    <a data-toggle="tooltip" data-placement="top" title="注销" href="{{ url_for('logout') }}">
                         <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                     </a>
                 </div>

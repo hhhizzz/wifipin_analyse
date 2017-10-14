@@ -3,14 +3,14 @@
  */
 define(function (require) {
 
-    require('echarts').registerCoordinateSystem(
+    require('static/echarts/dist/echarts').registerCoordinateSystem(
         'bmap', require('./BMapCoordSys')
     );
     require('./BMapModel');
     require('./BMapView');
 
     // Action
-    require('echarts').registerAction({
+    require('static/echarts/dist/echarts').registerAction({
         type: 'bmapRoam',
         event: 'bmapRoam',
         update: 'updateLayout'

@@ -1,6 +1,6 @@
 define(function (require) {
 
-    return require('echarts').extendComponentView({
+    return require('static/echarts/dist/echarts').extendComponentView({
         type: 'bmap',
 
         render: function (bMapModel, ecModel, api) {
