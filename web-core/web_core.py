@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
-from flask_login import login_required, login_user
+from flask_login import login_required, login_user, current_user
 import config
-from exts import db, login_manager
-from models import User
+from exts import User
+from exts import db, login_manager, load_user
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -19,7 +19,8 @@ def buy():
 @app.route('/', methods=["GET"])
 @login_required
 def index():
-    return render_template("index.html", username="黄齐威")
+    username = current_user.username
+    return render_template("index.html", username=username)
 
 
 @app.route('/login', methods=["GET", "POST"])
