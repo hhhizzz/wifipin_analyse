@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_login import login_required, login_user, current_user
 import config
-from exts import User
+from exts import *
 from exts import db, login_manager, load_user
 
 app = Flask(__name__)
@@ -23,11 +23,18 @@ def index():
     return render_template("index.html", username=username)
 
 
-@app.route('/index2', methods=["GET"])
+@app.route('/table_wifi', methods=["GET"])
 @login_required
-def index2():
+def table_wifi():
     username = current_user.username
-    return render_template("index2.html", username=username)
+    return render_template("table_wifi.html", username=username)
+
+
+@app.route('/table_mac', methods=["GET"])
+@login_required
+def table_mac():
+    username = current_user.username
+    return render_template("table_mac.html", username=username)
 
 
 @app.route("/date", methods=["GET"])
