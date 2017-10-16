@@ -18,7 +18,7 @@ def send(data):
 
 @app.route('/dsky', methods=["POST", "GET"])
 def hello_world():
-    body = request.json
+    body = request.values.get("data")
     payload = [{
         "body": body
     }]
