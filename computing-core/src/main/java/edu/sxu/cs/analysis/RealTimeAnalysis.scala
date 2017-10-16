@@ -15,12 +15,12 @@ object RealTimeAnalysis {
     //structure ((pinNumber,time),JSONArray)
     val jsonArray = lines
       .map(new JSONObject(_))
-      .map(obj => ((obj.getString("time"),obj.getString("id")), obj.getJSONArray("data")))
+      .map(obj => ((obj.getString("time"), obj.getString("id")), obj.getJSONArray("data")))
 
     //structure (pinNumber,mac1,power1,time1)
     val dataArray = jsonArray
       .flatMapValues(JSONUtil.getArray)
-      .map(data => (data._1._2, data._2.getString("mac"), data._2.getInt("rssi"), formater.parse(data._1._1).getTime))
+      .map(data => (data._1._2, data._2.getString("mac"), data._2.getInt("rssi"), formater.parse(data._1._1).getTime / 1000))
       .cache()
 
     //structure ((pinNumber,mac1),time1))
@@ -47,28 +47,31 @@ object RealTimeAnalysis {
       .map(row => (row._1, 1))
       .reduceByKey(_ + _)
       .cache()
-    peopleGetIn.print()
+    //peopleGetIn.print()
 
     //structure (pinNumber, get_in_rate)
     val rateGetIn = peopleGetIn
       .union(peopleAll)
       .map(row => (row._1, row._2 * 1.0))
       .reduceByKey({ (row1, row2) =>
-        if (row1 == 0 || row2 == 0)
-          0
+        if (row1 == 0.0 || row2 == 0.0)
+          0.0
         else if (row1 > row2)
           row2 / row1
         else
           row1 / row2
       })
+      .filter(row => row._2 <= 1)
       .cache()
-    rateGetIn.print()
+    //rateGetIn.print()
 
     //structure (mac1, wifiPin, time, today)
     val timeDiffSave = timeDiff
       .map(row => (row._2, row._1, row._3))
       .filter(row => row._3 >= 8)
       .cache()
+
+    //timeDiffSave.print()
 
     peopleGetIn.foreachRDD(rdd =>
       rdd.toHBaseTable("getIn")

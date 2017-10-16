@@ -29,9 +29,9 @@ object Main {
     log.setLevel(Level.WARN)
 
     //启动streaming
-    val conf = new SparkConf().setAppName("computing-core")
+    val conf = new SparkConf().setAppName("computing-core").setMaster("local[2]")
     conf.set("spark.hbase.host", zkQuorum)
-    val ssc = new StreamingContext(conf, Seconds(20))
+    val ssc = new StreamingContext(conf, Seconds(10))
 
 
     //从kafka获取数据
