@@ -19,10 +19,11 @@ def send(data):
 @app.route('/dsky', methods=["POST", "GET"])
 def hello_world():
     body = request.values.get("data")
-    payload = [{
-        "body": body
-    }]
-    _thread.start_new(send, (json.dumps(payload),))
+    print(body)
+    # payload = [{
+    #     "body": body
+    # }]
+    # _thread.start_new(send, (json.dumps(payload),))
     return "Hello"
 
 
