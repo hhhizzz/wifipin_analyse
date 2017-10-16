@@ -18,7 +18,7 @@ def send(data):
 
 @app.route('/dsky', methods=["POST", "GET"])
 def hello_world():
-    body = request.values.get("data")
+    body = request.values.get("data").encode("utf-8")
     print(body)
     # payload = [{
     #     "body": body
@@ -28,4 +28,4 @@ def hello_world():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8866, debug=True)
+    app.run(host="0.0.0.0", port=6001, debug=True)
