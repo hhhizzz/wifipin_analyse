@@ -13,15 +13,15 @@ headers = {'content-type': 'application/json'}
 def send(data):
     requests.post(
         url, data=json.dumps(data), headers=headers)
-    print(data)
+    print("success")
 
 
 @app.route('/dsky', methods=["POST", "GET"])
 def hello_world():
     body = request.values.get("data").encode("utf-8")
     payload = [{
-         "body": body.decode("utf-8")
-     }]
+        "body": body.decode("utf-8")
+    }]
     _thread.start_new(send, (json.dumps(payload),))
     return "Hello"
 

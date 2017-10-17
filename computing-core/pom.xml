@@ -18,7 +18,7 @@
         <kafka.version>0.10.1.0</kafka.version>
         <jedis.version>2.9.0</jedis.version>
         <junit.version>4.12</junit.version>
-        <mybatis.version>3.2.1</mybatis.version>
+        <mybatis.version>3.4.5</mybatis.version>
         <mysql.connector.java.version>5.1.41</mysql.connector.java.version>
         <fastjson.version>1.2.30</fastjson.version>
         <json.version>20170516</json.version>
@@ -71,6 +71,12 @@
             <artifactId>hadoop-client</artifactId>
             <version>${hadoop.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>${mybatis.version}</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.json/json -->
         <dependency>
             <groupId>org.json</groupId>
