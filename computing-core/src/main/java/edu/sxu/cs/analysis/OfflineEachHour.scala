@@ -25,7 +25,7 @@ object OfflineEachHour {
     val log = LogManager.getLogger("org")
     log.setLevel(Level.WARN)
     //设置spark环境
-    val conf = new SparkConf().setAppName("computing-core-offline")
+    val conf = new SparkConf().setAppName("computing-core-offline").setMaster("local[2]")
     conf.set("spark.hbase.host", zkQuorum)
     val spark = SparkSession
       .builder()
@@ -43,13 +43,13 @@ object OfflineEachHour {
 
     //structure (wifiPin,number)
     val wifiPinCount = hbaseDataStay
-      .map(row => (Bytes.toInt(row._2.getValue("stay".getBytes(), "wifiPin".getBytes())), Bytes.toString(row._2.getRow)))
+      .map(row => (Bytes.toString(row._2.getValue("stay".getBytes(), "wifiPin".getBytes())), Bytes.toString(row._2.getRow)))
       .map(row => (row._1, 1))
       .reduceByKey(_ + _)
 
     //structure (mac,key,value,timeStamp)
     val dataListStay = hbaseDataStay
-      .map(row => ((Bytes.toString(row._2.getRow), Bytes.toInt(row._2.getValue("stay".getBytes(), "wifiPin".getBytes()))), row._2))
+      .map(row => ((Bytes.toString(row._2.getRow), Bytes.toString(row._2.getValue("stay".getBytes(), "wifiPin".getBytes()))), row._2))
       .flatMapValues(_.listCells())
       .map(row => (row._1._2, Bytes.toString(CellUtil.cloneQualifier(row._2)), Bytes.toInt(CellUtil.cloneValue(row._2)), row._2.getTimestamp))
       .cache()
@@ -67,14 +67,15 @@ object OfflineEachHour {
       .join(wifiPinCount)
       .map(row => (row._1, row._2._1 / row._2._2))
       .cache()
+    resultStay.collect().foreach(println)
 
 
-    resultStay
-      .map(row => (row._1, row._2, today, currentHour))
-      .toHBaseTable("remain")
-      .inColumnFamily("remain")
-      .toColumns("time", "day", "hour")
-      .save
+//    resultStay
+//      .map(row => (row._1, row._2, today, currentHour))
+//      .toHBaseTable("remain")
+//      .inColumnFamily("remain")
+//      .toColumns("time", "day", "hour")
+//      .save
 
 
   }

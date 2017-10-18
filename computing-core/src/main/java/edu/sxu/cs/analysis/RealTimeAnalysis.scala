@@ -1,7 +1,9 @@
 package edu.sxu.cs.analysis
 
 import java.text.SimpleDateFormat
+import java.util.Date
 
+import edu.sxu.cs.database._
 import edu.sxu.cs.utils.JSONUtil
 import org.apache.spark.streaming.dstream.ReceiverInputDStream
 import org.json.JSONObject
@@ -9,7 +11,7 @@ import it.nerdammer.spark.hbase._
 
 object RealTimeAnalysis {
   def analysis(inputDStream: ReceiverInputDStream[(String, String)]): Unit = {
-
+    val session = MySession.getSession.openSession()
     val formater = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy")
     val lines = inputDStream.map(_._2)
     //structure ((pinNumber,time),JSONArray)
@@ -26,10 +28,11 @@ object RealTimeAnalysis {
     //structure ((pinNumber,mac1),time1))
     val peopleFilter = dataArray
       .filter(_._3 >= (-100))
+      .filter(_._4 >= System.currentTimeMillis() / 1000 - 36)
       .map(row => ((row._1, row._2), row._4))
       .cache()
 
-    //structure (pinNumber,mac1,time)
+    //structure (pinNumber,mac1,stayTime1)
     val timeDiff = peopleFilter
       .groupByKey()
       .map(row => (row._1._1, row._1._2, row._2.max - row._2.min))
@@ -41,13 +44,23 @@ object RealTimeAnalysis {
       .reduceByKey(_ + _)
       .cache()
 
-    //structure (pinNumber, number)
+    //structure (wifiPin, number)
     val peopleGetIn = timeDiff
       .filter(row => row._3 >= 8)
       .map(row => (row._1, 1))
       .reduceByKey(_ + _)
       .cache()
-    //peopleGetIn.print()
+
+    peopleGetIn.foreachRDD({ rdd =>
+      rdd.collect().foreach({ row =>
+        val userNumber = new UserNumber
+        userNumber.setNumber(row._2)
+        userNumber.setId(row._1)
+        userNumber.setTime(new Date)
+        session.getMapper(classOf[UserNumberOperation]).add(userNumber)
+      })
+      session.commit()
+    })
 
     //structure (pinNumber, get_in_rate)
     val rateGetIn = peopleGetIn
@@ -63,7 +76,17 @@ object RealTimeAnalysis {
       })
       .filter(row => row._2 <= 1)
       .cache()
-    //rateGetIn.print()
+
+    rateGetIn.foreachRDD({ rdd =>
+      rdd.collect().foreach({ row =>
+        val userRate = new UserRate
+        userRate.setId(row._1)
+        userRate.setRate(row._2.toFloat)
+        userRate.setTime(new Date)
+        session.getMapper(classOf[UserRateOperation]).add(userRate)
+      })
+      session.commit()
+    })
 
     //structure (mac1, wifiPin, time, today)
     val timeDiffSave = timeDiff
@@ -71,21 +94,21 @@ object RealTimeAnalysis {
       .filter(row => row._3 >= 8)
       .cache()
 
-    //timeDiffSave.print()
+    timeDiffSave.print()
 
-    peopleGetIn.foreachRDD(rdd =>
-      rdd.toHBaseTable("getIn")
-        .inColumnFamily("getIn")
-        .toColumns("number")
-        .save
-    )
-    rateGetIn.foreachRDD(rdd =>
-      rdd.toHBaseTable("getInRate")
-        .inColumnFamily("getInRate")
-        .toColumns("rate")
-        .save
-    )
-
+    //    peopleGetIn.foreachRDD(rdd =>
+    //      rdd.toHBaseTable("getIn")
+    //        .inColumnFamily("getIn")
+    //        .toColumns("number")
+    //        .save
+    //    )
+    //    rateGetIn.foreachRDD(rdd =>
+    //      rdd.toHBaseTable("getInRate")
+    //        .inColumnFamily("getInRate")
+    //        .toColumns("rate")
+    //        .save
+    //    )
+    //
     timeDiffSave
       .foreachRDD(rdd =>
         rdd.toHBaseTable("stay")

@@ -35,8 +35,8 @@
                     class="fa fa-sort-desc"></i>12% </i> 与上周同日相比</span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-wifi"></i> 周围最常用WIFI</span>
-            <div class="count">CMCC</div>
+            <span class="count_top"><i class="fa fa-wifi"></i> 探针状态</span>
+            <div class="count"><i class="green">正常</i></div>
         </div>
     </div>
     <!-- /top tiles -->
@@ -326,81 +326,79 @@
                 fontFamily: 'Arial, Verdana, sans-serif'
             }
         };
-        if ($("#mainPeople").length) {
+        if ($('#mainPeople').length) {
             var mainPeopleChart = echarts.init(document.getElementById('mainPeople'), theme);
-            mainPeopleChart.showLoading();
-            var base = +new Date(1968, 9, 3);
-            var oneDay = 24 * 3600 * 1000;
-            var date = [];
-
-            var data = [Math.random() * 300];
-            var data2 = [Math.random()];
-
-            for (var i = 1; i < 20000; i++) {
-                var now = new Date(base += oneDay);
-                date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
-                data.push(Math.round((Math.random() - 0.5) * 20 + data[i - 1]));
-                data2Current = Math.random() / 2 + data[i] / 500;
-                if (data2Current >= 1) {
-                    data2Current = 1
-                }
-                else if (data2Current <= 0) {
-                    data2Current = 0
-                }
-                data2.push(data2Current);
-            }
-
-            option = {
-                title: {
-                    text: '客户变化趋势',
-                },
-                tooltip: {
-                    trigger: 'axis',
-                    position: function (pt) {
-                        return [pt[0], '10%'];
-                    }
-                },
-                toolbox: {
-                    show: !1
-                },
-                xAxis: [{
-                    type: 'category',
-                    boundaryGap: false,
-                    data: date
-                }],
-                yAxis: [{
-                    type: 'value',
-                    boundaryGap: [0, '100%']
-                }, {
-                    type: 'value',
-                    boundaryGap: [0, '100%']
-                }],
-                dataZoom: [{
-                    start: 0,
-                    end: 10,
-                }],
-                series: [
-                    {
-                        name: '人数',
-                        type: 'line',
-                        smooth: true,
-                        symbol: 'none',
-                        sampling: 'average',
-                        data: data
-                    },
-                    {
-                        name: '入店率',
-                        type: 'line',
-                        smooth: true,
-                        symbol: 'none',
-                        sampling: 'average',
-                        yAxisIndex: 1,
-                        data: data2
-                    }
-                ]
-            };
-            mainPeopleChart.setOption(option)
-            mainPeopleChart.hideLoading()
+            $.getJSON('/data/user_rate').done(function (data1) {
+                $.getJSON('/data/user_number').done(function (data2) {
+                    mainPeopleChart.showLoading();
+                    option = {
+                        title: {
+                            text: '客户变化趋势',
+                        },
+                        tooltip: {
+                            trigger: 'axis',
+                            position: function (pt) {
+                                return [pt[0], '10%'];
+                            }
+                        },
+                        toolbox: {
+                            show: !1
+                        },
+                        xAxis: [{
+                            type: 'time',
+                            boundaryGap: false,
+                        }],
+                        yAxis: [
+                            {
+                                type: 'value',
+                                boundaryGap: [0, '100%']
+                            },
+                            {
+                                type: 'value',
+                                boundaryGap: [0, '100%']
+                            }],
+                        dataZoom: [{
+                            start: 0,
+                            end: 10,
+                        }],
+                        series: [
+                            {
+                                name: '人数',
+                                type: 'line',
+                                smooth: true,
+                                symbol: 'none',
+                                sampling: 'average',
+                                data: data2
+                            },
+                            {
+                                name: '入店率',
+                                type: 'line',
+                                smooth: true,
+                                symbol: 'none',
+                                sampling: 'average',
+                                yAxisIndex: 1,
+                                data: data1
+                            }
+                        ]
+                    };
+                    mainPeopleChart.setOption(option);
+                    mainPeopleChart.hideLoading();
+                });
+            });
+            setInterval(function () {
+                $.getJSON('/data/user_rate').done(function (data1) {
+                    $.getJSON('/data/user_number').done(function (data2) {
+                        mainPeopleChart.setOption({
+                            series: [{
+                                data: data2,
+                            }, {
+                                data: data1
+                            }
+                            ]
+                        });
+                    });
+                });
+            }, 20000);
         }
         if ($('#customer').length) {
 
@@ -452,8 +450,8 @@
             echartMiniPie.hideLoading();
         }
         if ($("#stay").length) {
-            var mainPeopleChart = echarts.init(document.getElementById('stay'), theme);
-            mainPeopleChart.showLoading();
+            var stayChart = echarts.init(document.getElementById('stay'), theme);
+            stayChart.showLoading();
             var base = +new Date(1968, 9, 3);
             var oneDay = 24 * 3600 * 1000;
             var date = [];
@@ -513,8 +511,8 @@
                     }
                 ]
             };
-            mainPeopleChart.setOption(option)
-            mainPeopleChart.hideLoading()
+            stayChart.setOption(option)
+            stayChart.hideLoading()
         }
     </script>
 {% endblock %}

@@ -2,7 +2,9 @@ from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_login import login_required, login_user, current_user
 import config
 from exts import *
+from models import *
 from exts import db, login_manager, load_user
+import json
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -42,6 +44,26 @@ def table_mac():
 def date():
     username = current_user.username
     return render_template("date.html", username=username)
+
+
+@app.route("/data/<info>")
+@login_required
+def data(info):
+    my_id = current_user.id
+    wifi_ids = []  # 用户绑定的wifi id号
+    user_wifis = UserWithWifi.query.filter(UserWithWifi.userId == my_id).all()
+    for user_wifi in user_wifis:
+        wifi_ids.append(user_wifi.wifiId)
+    data = []
+    if info == 'user_number':
+        user_numbers = UserNumber.query.filter(UserNumber.id == wifi_ids[0]).order_by(UserNumber.time).all()
+        for user_number in user_numbers:
+            data.append([int(user_number.time.timestamp() * 1000), user_number.number])
+    elif info == 'user_rate':
+        user_rates = UserRate.query.filter(UserRate.id == wifi_ids[0]).order_by(UserRate.time).all()
+        for user_rate in user_rates:
+            data.append([int(user_rate.time.timestamp() * 1000), user_rate.rate])
+    return json.dumps(data)
 
 
 @app.route('/login', methods=["GET", "POST"])

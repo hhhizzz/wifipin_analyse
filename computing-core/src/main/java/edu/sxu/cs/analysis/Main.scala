@@ -31,7 +31,7 @@ object Main {
     //启动streaming
     val conf = new SparkConf().setAppName("computing-core").setMaster("local[2]")
     conf.set("spark.hbase.host", zkQuorum)
-    val ssc = new StreamingContext(conf, Seconds(10))
+    val ssc = new StreamingContext(conf, Seconds(30))
 
 
     //从kafka获取数据
