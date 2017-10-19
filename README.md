@@ -11,7 +11,12 @@
 
 ### Computing-Core
 
-部分代码参考：
+使用spark对数据进行处理 存入hbase和mysql中
 
-[anghan0501/WiFiProbeAnalysis](https://github.com/wanghan0501/WiFiProbeAnalysis)
+## web-Core
 
+展示系统后端
+
+## Receive-Core
+
+从wifi探针收集数据
