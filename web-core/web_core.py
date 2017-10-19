@@ -63,6 +63,14 @@ def data(info):
         user_rates = UserRate.query.filter(UserRate.id == wifi_ids[0]).order_by(UserRate.time).all()
         for user_rate in user_rates:
             data.append([int(user_rate.time.timestamp() * 1000), user_rate.rate])
+    elif info == 'stay_time':
+        stay_times = Stay.query.filter(Stay.id == wifi_ids[0]).order_by(Stay.time).all()
+        for stay_time in stay_times:
+            data.append([int(stay_time.time.timestamp() * 1000), stay_time.stay])
+    elif info == "periodic":
+        periodics = Periodic.query.filter(Periodic.id == wifi_ids[0]).order_by(Periodic.time).all()
+        for periodic in periodics:
+            data.append([int(periodic.time.timestamp() * 1000), periodic.space])
     return json.dumps(data)
 
 

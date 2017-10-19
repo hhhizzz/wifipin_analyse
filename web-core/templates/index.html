@@ -7,18 +7,18 @@
     <div class="row tile_count">
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> 当前用户量</span>
-            <div class="count">257</div>
+            <div id="user_number" class="count">-</div>
             <span class="count_bottom"><i class="green">4% </i>昨日同时相比 </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-users"></i> 当前入店率</span>
-            <div class="count">30.2%</div>
+            <div id="user_rate" class="count">-</div>
             <span class="count_bottom"><i class="green"><i
                     class="fa fa-sort-asc"></i>3% </i> 昨日同时相比</span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-clock-o"></i> 客户平均停留时间</span>
-            <div class="count">32min</div>
+            <div id="stay_time" class="count">-</div>
             <span class="count_bottom"><i class="green"><i
                     class="fa fa-sort-asc"></i>3% </i> 昨日同时相比</span>
         </div>
@@ -30,7 +30,7 @@
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-clock-o"></i> 昨日平均访问周期</span>
-            <div class="count">1.2天</div>
+            <div id="periodic" class="count">-</div>
             <span class="count_bottom"><i class="red"><i
                     class="fa fa-sort-desc"></i>12% </i> 与上周同日相比</span>
         </div>
@@ -383,6 +383,8 @@
                     };
                     mainPeopleChart.setOption(option);
                     mainPeopleChart.hideLoading();
+                    document.getElementById('user_number').innerHTML = data2.pop()[1];
+                    document.getElementById('user_rate').innerHTML = data1.pop()[1].toFixed(4) * 100 + '%'
                 });
             });
             setInterval(function () {
@@ -396,6 +398,8 @@
                             }
                             ]
                         });
+                        document.getElementById('user_number').innerHTML = data2.pop()[1];
+                        document.getElementById('user_rate').innerHTML = data1.pop()[1].toFixed(4) * 100 + '%'
                     });
                 });
             }, 20000);
@@ -449,70 +453,79 @@
             echartMiniPie.setOption(MiniPieOption)
             echartMiniPie.hideLoading();
         }
+        $.getJSON('/data/periodic').done(function (data1) {
+            document.getElementById("periodic").innerHTML = data1.pop()[1] + "天";
+        });
         if ($("#stay").length) {
             var stayChart = echarts.init(document.getElementById('stay'), theme);
             stayChart.showLoading();
-            var base = +new Date(1968, 9, 3);
-            var oneDay = 24 * 3600 * 1000;
-            var date = [];
+            $.getJSON('/data/stay_time').done(function (data1) {
 
-            var data = [Math.random() * 300];
-
-            for (var i = 1; i < 20000; i++) {
-                var now = new Date(base += oneDay);
-                date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
-                data.push(Math.round((Math.random() - 0.5) * 20 + data[i - 1]));
-            }
-
-            option = {
-                title: {
-                    text: '客户停留时间变化趋势',
-                },
-                tooltip: {
-                    trigger: 'axis',
-                    position: function (pt) {
-                        return [pt[0], '10%'];
-                    }
-                },
-                toolbox: {
-                    show: !1
-                },
-                xAxis: [{
-                    type: 'category',
-                    boundaryGap: false,
-                    data: date
-                }],
-                yAxis: [{
-                    type: 'value',
-                    boundaryGap: [0, '100%']
-                }],
-                dataZoom: [{
-                    start: 0,
-                    end: 10
-                }, {
-                    start: 0,
-                    end: 10,
-                }],
-                series: [
-                    {
-                        name: '分钟',
-                        type: 'line',
-                        smooth: true,
-                        symbol: 'none',
-                        sampling: 'average',
-                        itemStyle: {
-                            normal: {
-                                areaStyle: {
-                                    type: 'default'
+                option = {
+                    title: {
+                        text: '客户停留时间变化趋势',
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        position: function (pt) {
+                            return [pt[0], '10%'];
+                        }
+                    },
+                    toolbox: {
+                        show: !1
+                    },
+                    xAxis: [{
+                        type: 'time',
+                        boundaryGap: false,
+                    }],
+                    yAxis: [{
+                        type: 'value',
+                        boundaryGap: [0, '100%']
+                    }],
+                    dataZoom: [{
+                        start: 0,
+                        end: 10
+                    }, {
+                        start: 0,
+                        end: 10,
+                    }],
+                    series: [
+                        {
+                            name: '分钟',
+                            type: 'line',
+                            smooth: true,
+                            symbol: 'none',
+                            sampling: 'average',
+                            itemStyle: {
+                                normal: {
+                                    areaStyle: {
+                                        type: 'default'
+                                    }
                                 }
-                            }
-                        },
-                        data: data
-                    }
-                ]
-            };
-            stayChart.setOption(option)
-            stayChart.hideLoading()
+                            },
+                            data: data1
+                        }
+                    ]
+                };
+                stayChart.setOption(option)
+                stayChart.hideLoading()
+                document.getElementById("stay_time").innerHTML = data1.pop()[1] + "分钟";
+            });
+            setInterval(function () {
+                $.getJSON('/data/stay_time').done(function (data1) {
+                    mainPeopleChart.setOption({
+                        series: [{
+                            data: data1
+                        }]
+                    });
+                    document.getElementById("stay_time").innerHTML = data1.pop()[1] + "分钟";
+                });
+            }, 3600000);
+            setInterval(function () {
+                $.getJSON('/data/periodic').done(function (data1) {
+                    document.getElementById("periodic").innerHTML = data1.pop()[1] + "天";
+                });
+            }, 86400000);
         }
     </script>
 {% endblock %}
