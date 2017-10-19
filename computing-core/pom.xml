@@ -89,6 +89,14 @@
             <artifactId>spark-hbase-connector_2.10</artifactId>
             <version>${spark-hbase.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.connector.java.version}</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
