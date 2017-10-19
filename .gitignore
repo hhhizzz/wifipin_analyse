@@ -16,7 +16,6 @@
 
 # build generated
 **/target/
-**/build/
 
 # intermediately generated locally
 **/logs/
