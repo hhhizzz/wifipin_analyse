@@ -9,7 +9,7 @@
                 <property name="driver" value="com.mysql.jdbc.Driver" />
                 <property name="url" value="jdbc:mysql://wifi.izhuo.me:3306/wifiPin" />
                 <property name="username" value="root" />
-                <property name="password" value="HQWhjs234135" />
+                <property name="password" value="123456" />
             </dataSource>
         </environment>
     </environments>
