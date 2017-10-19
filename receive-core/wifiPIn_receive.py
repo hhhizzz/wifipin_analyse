@@ -14,6 +14,7 @@ def send(data):
     res = requests.post(
         url, data=data, headers=headers)
     print(res.content)
+    print(data)
 
 
 @app.route('/dsky', methods=["POST", "GET"])
@@ -27,4 +28,4 @@ def hello_world():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=6001, debug=True)
+    app.run(port=6001, debug=True)
