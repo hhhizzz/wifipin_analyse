@@ -6,24 +6,24 @@
     <!-- top tiles -->
     <div class="row tile_count">
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> 当前用户量</span>
+            <span class="count_top"><i class="fa fa-user"></i> 当前设备量</span>
             <div id="user_number" class="count">-</div>
             <span class="count_bottom"><i class="green">4% </i>昨日同时相比 </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-users"></i> 当前入店率</span>
+            <span class="count_top"><i class="fa fa-users"></i> 当前停留率</span>
             <div id="user_rate" class="count">-</div>
             <span class="count_bottom"><i class="green"><i
                     class="fa fa-sort-asc"></i>3% </i> 昨日同时相比</span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-clock-o"></i> 客户平均停留时间</span>
+            <span class="count_top"><i class="fa fa-clock-o"></i> 设备平均停留时间</span>
             <div id="stay_time" class="count">-</div>
             <span class="count_bottom"><i class="green"><i
                     class="fa fa-sort-asc"></i>3% </i> 昨日同时相比</span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-users"></i> 老客户比例</span>
+            <span class="count_top"><i class="fa fa-users"></i> 老设备比例</span>
             <div class="count">42.7%</div>
             <span class="count_bottom"><i class="green"><i
                     class="fa fa-sort-asc"></i>8.2% </i> 昨日同时相比</span>
@@ -44,7 +44,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>用户量变化</h2>
+                    <h2>设备量变化</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                         </li>
@@ -64,33 +64,33 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+{#        <div class="col-md-4 col-sm-4 col-xs-12">#}
+{#            <div class="x_panel">#}
+{#                <div class="x_title">#}
+{#                    <h2>用户组成</h2>#}
+{#                    <ul class="nav navbar-right panel_toolbox">#}
+{#                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>#}
+{#                        </li>#}
+{#                        <li class="dropdown">#}
+{#                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"#}
+{#                               aria-expanded="false"><i class="fa fa-wrench"></i></a>#}
+{#                        </li>#}
+{#                        <li><a class="close-link"><i class="fa fa-close"></i></a>#}
+{#                        </li>#}
+{#                    </ul>#}
+{#                    <div class="clearfix"></div>#}
+{#                </div>#}
+{#                <div class="x_content">#}
+{##}
+{#                    <div id="customer" style="height:350px;"></div>#}
+{##}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+        <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>用户组成</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        </li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-
-                    <div id="customer" style="height:350px;"></div>
-
-                </div>
-            </div>
-        </div>
-        <div class="col-md-8 col-sm-8 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2>用户停留时间</h2>
+                    <h2>设备停留时间</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                         </li>
@@ -333,7 +333,7 @@
                     mainPeopleChart.showLoading();
                     option = {
                         title: {
-                            text: '客户变化趋势',
+                            text: '设备量变化趋势',
                         },
                         tooltip: {
                             trigger: 'axis',
@@ -362,12 +362,12 @@
                             end: 10,
                         }],
                         legend: {
-                            data: ['客户人数', '入店率'],
+                            data: ['设备数', '停留率'],
                             x: 'center'
                         },
                         series: [
                             {
-                                name: '客户人数',
+                                name: '设备数',
                                 type: 'line',
                                 smooth: true,
                                 symbol: 'none',
@@ -375,7 +375,7 @@
                                 data: data2
                             },
                             {
-                                name: '入店率',
+                                name: '停留率',
                                 type: 'line',
                                 smooth: true,
                                 symbol: 'none',
@@ -408,55 +408,55 @@
                 });
             }, 20000);
         }
-        if ($('#customer').length) {
-
-            var echartMiniPie = echarts.init(document.getElementById('customer'), theme);
-            echartMiniPie.showLoading();
-            MiniPieOption = {
-                tooltip: {
-                    trigger: 'item',
-                    formatter: "{a} <br/>{b}: {c} ({d}%)"
-                },
-                legend: {
-                    orient: 'vertical',
-                    x: 'left',
-                    data: ['未进店', '新用户', '老用户']
-                },
-                series: [
-                    {
-                        name: '访问来源',
-                        type: 'pie',
-                        radius: ['50%', '70%'],
-                        avoidLabelOverlap: false,
-                        label: {
-                            normal: {
-                                show: false,
-                                position: 'center'
-                            },
-                            emphasis: {
-                                show: true,
-                                textStyle: {
-                                    fontSize: '30',
-                                    fontWeight: 'bold'
-                                }
-                            }
-                        },
-                        labelLine: {
-                            normal: {
-                                show: false
-                            }
-                        },
-                        data: [
-                            {value: 335, name: '未进店'},
-                            {value: 310, name: '新用户'},
-                            {value: 234, name: '老用户'},
-                        ]
-                    }
-                ]
-            };
-            echartMiniPie.setOption(MiniPieOption)
-            echartMiniPie.hideLoading();
-        }
+{#        if ($('#customer').length) {#}
+{##}
+{#            var echartMiniPie = echarts.init(document.getElementById('customer'), theme);#}
+{#            echartMiniPie.showLoading();#}
+{#            MiniPieOption = {#}
+{#                tooltip: {#}
+{#                    trigger: 'item',#}
+{#                    formatter: "{a} <br/>{b}: {c} ({d}%)"#}
+{#                },#}
+{#                legend: {#}
+{#                    orient: 'vertical',#}
+{#                    x: 'left',#}
+{#                    data: ['未进店', '新用户', '老用户']#}
+{#                },#}
+{#                series: [#}
+{#                    {#}
+{#                        name: '访问来源',#}
+{#                        type: 'pie',#}
+{#                        radius: ['50%', '70%'],#}
+{#                        avoidLabelOverlap: false,#}
+{#                        label: {#}
+{#                            normal: {#}
+{#                                show: false,#}
+{#                                position: 'center'#}
+{#                            },#}
+{#                            emphasis: {#}
+{#                                show: true,#}
+{#                                textStyle: {#}
+{#                                    fontSize: '30',#}
+{#                                    fontWeight: 'bold'#}
+{#                                }#}
+{#                            }#}
+{#                        },#}
+{#                        labelLine: {#}
+{#                            normal: {#}
+{#                                show: false#}
+{#                            }#}
+{#                        },#}
+{#                        data: [#}
+{#                            {value: 335, name: '未进店'},#}
+{#                            {value: 310, name: '新用户'},#}
+{#                            {value: 234, name: '老用户'},#}
+{#                        ]#}
+{#                    }#}
+{#                ]#}
+{#            };#}
+{#            echartMiniPie.setOption(MiniPieOption)#}
+{#            echartMiniPie.hideLoading();#}
+{#        }#}
         $.getJSON('/data/periodic').done(function (data1) {
             document.getElementById("periodic").innerHTML = data1.pop()[1] + "天";
         });
@@ -467,7 +467,7 @@
 
                 option = {
                     title: {
-                        text: '客户停留时间变化趋势',
+                        text: '设备停留时间变化趋势',
                     },
                     tooltip: {
                         trigger: 'axis',
@@ -517,7 +517,7 @@
             });
             setInterval(function () {
                 $.getJSON('/data/stay_time').done(function (data1) {
-                    mainPeopleChart.setOption({
+                    stayChart.setOption({
                         series: [{
                             data: data1
                         }]

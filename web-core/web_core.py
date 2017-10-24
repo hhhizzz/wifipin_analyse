@@ -46,6 +46,13 @@ def date():
     return render_template("date.html", username=username)
 
 
+@app.route("/add_wifi", methods=["GET"])
+@login_required
+def add_wifi():
+    username = current_user.username
+    return render_template("add_wifi.html", username=username)
+
+
 @app.route("/data/<info>")
 @login_required
 def data(info):
@@ -96,7 +103,7 @@ def login():
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
-    return "logout page"
+    return "您已注销"
 
 
 @app.route('/register', methods=['GET', 'POST'])

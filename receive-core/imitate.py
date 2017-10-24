@@ -4,7 +4,7 @@ import _thread
 import random
 import time
 
-url = 'http://localhost:6001/dsky'
+url = 'http://wifi.izhuo.me:6001/dsky'
 headers = {'content-type': 'application/x-www-form-urlencoded'}
 
 
@@ -19,6 +19,7 @@ def random_mac():
 
 def send():
     current_mac = []
+    time1 = time.time()
     for i in range(201):
         current_mac.append(random_mac())
     for i in range(10000):
@@ -37,8 +38,9 @@ def send():
             body1["data"].append(current_data)
         data = "data=" + json.dumps(body1)
         requests.post(url, data=data, headers=headers)
-        time.sleep(1)
         print(data)
+    time2 = time.time()
+    print(time2-time1)
 
 
 send()
