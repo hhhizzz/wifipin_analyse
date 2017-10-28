@@ -41,8 +41,7 @@ def direct():
     body = request.values.get("data")
     data = json.loads(body)
     sniffer = data["id"]
-    st = time.strptime(data["time"], '%c')
-    ft = time.strftime("%Y-%m-%d %H:%M:%S", st)
+    ft = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     datas = data["data"]
     for d in datas:
         mac = d["mac"]

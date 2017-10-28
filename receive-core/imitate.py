@@ -5,7 +5,7 @@ import random
 import time
 
 url = 'http://wifi.izhuo.me:6001/dsky'
-url_local = "http://localhost:6001/direct"
+url_local = "http://wifi.izhuo.me:6001/direct"
 headers = {'content-type': 'application/x-www-form-urlencoded'}
 
 
@@ -40,7 +40,7 @@ def send():
         data = "data=" + json.dumps(body1)
         requests.post(url_local, data=data, headers=headers)
         print(data)
-        time.sleep(2)
+        time.sleep(5)
     time2 = time.time()
     print(time2-time1)
 
