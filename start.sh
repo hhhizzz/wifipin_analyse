@@ -1,0 +1,1 @@
+spark-submit --class edu.sxu.cs.analysis.Main --master yarn --deploy-mode cluster computing-core-1.0-SNAPSHOT-jar-with-dependencies.jar 
