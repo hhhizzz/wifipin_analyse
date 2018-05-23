@@ -28,6 +28,10 @@ class UserWithWifi(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey("User.id"), primary_key=True)
     wifiId = db.Column(db.String(10), db.ForeignKey("wifiPin.id"), primary_key=False)
 
+    def __init__(self, userid, wifiid):
+        self.userId = userid
+        self.wifiId = wifiid
+
 
 class UserNumber(db.Model):
     __tabblename__ = "UserNumber"
