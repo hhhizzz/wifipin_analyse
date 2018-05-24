@@ -7,7 +7,7 @@ from web_core import app
 
 manager = Manager(app)
 
-## 绑定app和db
+## 绑定app和db 实现快捷数据库迁移
 migrate = Migrate(app, db)
 
 manager.add_command("db", MigrateCommand)

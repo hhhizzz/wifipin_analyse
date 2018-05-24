@@ -1,14 +1,19 @@
+"""
+模拟生成Wi-Fi探针的数据，
+"""
+
 import json
 import requests
 import _thread
 import random
 import time
 
+
 url = 'http://wifi.izhuo.me:6001/dsky'
 url_local = "http://wifi.izhuo.me:6001/direct"
 headers = {'content-type': 'application/x-www-form-urlencoded'}
 
-
+# 生成模拟mac地址
 def random_mac():
     Maclist = []
     for i in range(1, 7):
@@ -17,7 +22,7 @@ def random_mac():
     RANDMAC = ":".join(Maclist)
     return RANDMAC
 
-
+# 发送模拟数据
 def send():
     current_mac = []
     time1 = time.time()

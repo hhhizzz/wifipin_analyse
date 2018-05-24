@@ -18,7 +18,7 @@ conn = pymysql.connect(host='localhost',
 
 cursor = conn.cursor()
 
-
+# 发送数据
 def send(data):
     res = requests.post(
         url, data=data, headers=headers)
